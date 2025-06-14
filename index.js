@@ -5,8 +5,14 @@ require("dotenv").config();
 
 const app = express();
 
-// ✅ Middleware
-app.use(cors());
+// ✅ Middleware: Allow CORS only from your frontend
+const allowedOrigin = process.env.CLIENT_ORIGIN || "*";
+app.use(cors({
+  origin: allowedOrigin,
+  methods: ["GET", "POST"],
+  credentials: true
+}));
+
 app.use(express.json());
 
 // ✅ Root route for Render health check
@@ -27,13 +33,13 @@ app.post("/chat", async (req, res) => {
       "https://api.openai.com/v1/chat/completions",
       {
         model: "gpt-3.5-turbo",
-        messages: [{ role: "user", content: message }],
+        messages: [{ role: "user", content: message }]
       },
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-        },
+          Authorization: `Bearer ${process.env.OPENAI_API_KEY}`
+        }
       }
     );
 
