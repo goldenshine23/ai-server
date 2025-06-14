@@ -1,4 +1,3 @@
-// index.js
 const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
@@ -20,7 +19,7 @@ app.post("/chat", async (req, res) => {
     const response = await axios.post(
       "https://api.openai.com/v1/chat/completions",
       {
-        model: "gpt-4", // Change to "gpt-3.5-turbo" if GPT-4 is not needed
+        model: "gpt-3.5-turbo", // ✅ corrected model name
         messages: [{ role: "user", content: userMessage }],
       },
       {
